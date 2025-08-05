@@ -1,54 +1,23 @@
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import "./App.css";
 
-const API_URL = "http://localhost:5000"; // Schimbă cu URL-ul backend-ului online dacă e cazul
+const API_URL = "http://localhost:5000"; // dacă e online, pune linkul Render aici
 
-function Home() {
-  return (
-    <div>
-      <h1>Bine ai venit pe Ebay Anunțuri!</h1>
-      <nav>
-        <Link to="/anunturi">Vezi Anunțuri</Link> |{" "}
-        <Link to="/adauga">Adaugă Anunț</Link>
-      </nav>
-    </div>
-  );
-}
-
-function ListaAnunturi() {
+function App() {
   const [anunturi, setAnunturi] = useState([]);
-
-  useEffect(() => {
-    fetch(`${API_URL}/api/anunturi`)
-      .then((res) => res.json())
-      .then((data) => setAnunturi(data))
-      .catch((err) => console.error("Eroare încărcare:", err));
-  }, []);
-
-  return (
-    <div>
-      <h2>Lista Anunțuri</h2>
-      <ul>
-        {anunturi.length > 0 ? (
-          anunturi.map((a) => (
-            <li key={a._id}>
-              <strong>{a.titlu}</strong> - {a.descriere} ({a.pret} RON)
-            </li>
-          ))
-        ) : (
-          <p>Nu există anunțuri.</p>
-        )}
-      </ul>
-    </div>
-  );
-}
-
-function AdaugaAnunt() {
   const [titlu, setTitlu] = useState("");
   const [descriere, setDescriere] = useState("");
   const [pret, setPret] = useState("");
 
+  // Încarcă lista la început
+  useEffect(() => {
+    fetch(`${API_URL}/api/anunturi`)
+      .then((res) => res.json())
+      .then((data) => setAnunturi(data))
+      .catch((err) => console.error("Eroare la încărcare anunțuri:", err));
+  }, []);
+
+  // Trimite anunț nou
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -61,7 +30,8 @@ function AdaugaAnunt() {
     });
 
     if (response.ok) {
-      alert("Anunț adăugat cu succes!");
+      const data = await fetch(`${API_URL}/api/anunturi`).then((res) => res.json());
+      setAnunturi(data);
       setTitlu("");
       setDescriere("");
       setPret("");
@@ -72,7 +42,7 @@ function AdaugaAnunt() {
 
   return (
     <div>
-      <h2>Adaugă Anunț</h2>
+      <h1>Bine ai venit pe Ebay Anunțuri!</h1>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -97,19 +67,20 @@ function AdaugaAnunt() {
         />
         <button type="submit">Adaugă</button>
       </form>
-    </div>
-  );
-}
 
-function App() {
-  return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/anunturi" element={<ListaAnunturi />} />
-        <Route path="/adauga" element={<AdaugaAnunt />} />
-      </Routes>
-    </Router>
+      <h2>Lista anunțuri</h2>
+      <ul>
+        {anunturi.length > 0 ? (
+          anunturi.map((a) => (
+            <li key={a._id}>
+              <strong>{a.titlu}</strong> - {a.descriere} ({a.pret} RON)
+            </li>
+          ))
+        ) : (
+          <p>Nu există anunțuri.</p>
+        )}
+      </ul>
+    </div>
   );
 }
 
