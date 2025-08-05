@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 
-const API_URL = "http://localhost:5000"; // dacă e online, pune linkul Render aici
+const API_URL = "https://ebay-anunturi-backend.onrender.com"; // dacă e online, pune linkul Render aici
 
 function App() {
   const [anunturi, setAnunturi] = useState([]);

@@ -1,116 +1,25 @@
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import { useEffect, useState } from "react";
-import "./App.css";
-
-const API_URL = "http://localhost:5000"; // Schimbă cu URL-ul backend-ului online dacă e cazul
-
-function Home() {
+function App() {
   return (
-    <div>
+    <div style={{ padding: '20px', fontFamily: 'Arial' }}>
       <h1>Bine ai venit pe Ebay Anunțuri!</h1>
       <nav>
-        <Link to="/anunturi">Vezi Anunțuri</Link> |{" "}
-        <Link to="/adauga">Adaugă Anunț</Link>
+        <a href="/anunturi" style={navButtonStyle}>Vezi Anunțuri</a>
+        <a href="/adauga" style={navButtonStyle}>Adaugă Anunț</a>
+        <a href="/login" style={navButtonStyle}>Autentificare</a>
       </nav>
     </div>
   );
 }
 
-function ListaAnunturi() {
-  const [anunturi, setAnunturi] = useState([]);
-
-  useEffect(() => {
-    fetch(`${API_URL}/api/anunturi`)
-      .then((res) => res.json())
-      .then((data) => setAnunturi(data))
-      .catch((err) => console.error("Eroare încărcare:", err));
-  }, []);
-
-  return (
-    <div>
-      <h2>Lista Anunțuri</h2>
-      <ul>
-        {anunturi.length > 0 ? (
-          anunturi.map((a) => (
-            <li key={a._id}>
-              <strong>{a.titlu}</strong> - {a.descriere} ({a.pret} RON)
-            </li>
-          ))
-        ) : (
-          <p>Nu există anunțuri.</p>
-        )}
-      </ul>
-    </div>
-  );
-}
-
-function AdaugaAnunt() {
-  const [titlu, setTitlu] = useState("");
-  const [descriere, setDescriere] = useState("");
-  const [pret, setPret] = useState("");
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    const anuntNou = { titlu, descriere, pret: Number(pret) };
-
-    const response = await fetch(`${API_URL}/api/anunturi`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(anuntNou),
-    });
-
-    if (response.ok) {
-      alert("Anunț adăugat cu succes!");
-      setTitlu("");
-      setDescriere("");
-      setPret("");
-    } else {
-      alert("Eroare la adăugare!");
-    }
-  };
-
-  return (
-    <div>
-      <h2>Adaugă Anunț</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Titlu"
-          value={titlu}
-          onChange={(e) => setTitlu(e.target.value)}
-          required
-        />
-        <input
-          type="text"
-          placeholder="Descriere"
-          value={descriere}
-          onChange={(e) => setDescriere(e.target.value)}
-          required
-        />
-        <input
-          type="number"
-          placeholder="Preț"
-          value={pret}
-          onChange={(e) => setPret(e.target.value)}
-          required
-        />
-        <button type="submit">Adaugă</button>
-      </form>
-    </div>
-  );
-}
-
-function App() {
-  return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/anunturi" element={<ListaAnunturi />} />
-        <Route path="/adauga" element={<AdaugaAnunt />} />
-      </Routes>
-    </Router>
-  );
-}
+const navButtonStyle = {
+  display: 'inline-block',
+  margin: '10px',
+  padding: '10px 20px',
+  backgroundColor: '#007bff',
+  color: 'white',
+  textDecoration: 'none',
+  borderRadius: '5px',
+  fontWeight: 'bold',
+};
 
 export default App;
