@@ -4,7 +4,7 @@ function App() {
   const [anunturi, setAnunturi] = useState([]);
 
   useEffect(() => {
-    fetch('https://backend-tau.onrender.com/api/anunturi')  // pune aici URL-ul backend-ului online
+    fetch('https://ebay-anunturi.ro')  // pune aici URL-ul backend-ului online
       .then(res => res.json())
       .then(data => setAnunturi(data))
       .catch(err => console.error('Eroare la încărcarea anunțurilor:', err));
