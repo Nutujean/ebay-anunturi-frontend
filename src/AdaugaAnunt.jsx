@@ -1,72 +1,83 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
 
-export default function AdaugaAnunt() {
+const AdaugaAnunt = () => {
   const [titlu, setTitlu] = useState("");
   const [descriere, setDescriere] = useState("");
   const [pret, setPret] = useState("");
-  const navigate = useNavigate();
-
-  const API_URL = import.meta.env.VITE_API_URL;
+  const [categorie, setCategorie] = useState("");
+  const [imagine, setImagine] = useState(null);
+  const [mesaj, setMesaj] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const anuntNou = { titlu, descriere, pret: Number(pret) };
+    const formData = new FormData();
+    formData.append("titlu", titlu);
+    formData.append("descriere", descriere);
+    formData.append("pret", pret);
+    formData.append("categorie", categorie);
+    if (imagine) {
+      formData.append("imagine", imagine);
+    }
 
     try {
-      const res = await fetch(`${API_URL}/api/anunturi`, {
+      const response = await fetch("http://localhost:5000/api/anunturi", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(anuntNou),
+        body: formData,
       });
 
-      if (res.ok) {
-        navigate("/anunturi");
+      if (response.ok) {
+        setMesaj("Anunț adăugat cu succes!");
+        setTitlu("");
+        setDescriere("");
+        setPret("");
+        setCategorie("");
+        setImagine(null);
       } else {
-        alert("Eroare la adăugarea anunțului!");
+        setMesaj("Eroare la adăugare anunț");
       }
     } catch (err) {
-      console.error("Eroare rețea:", err);
+      console.error(err);
+      setMesaj("Eroare de rețea");
     }
   };
 
   return (
-    <div className="p-6">
-      <h2 className="text-2xl font-bold mb-4">Adaugă Anunț Nou</h2>
-      <form onSubmit={handleSubmit} className="space-y-4 max-w-md mx-auto">
+    <div>
+      <h2>Adaugă Anunț</h2>
+      <form onSubmit={handleSubmit}>
         <input
           type="text"
           placeholder="Titlu"
           value={titlu}
           onChange={(e) => setTitlu(e.target.value)}
-          className="w-full p-2 border rounded"
-          required
         />
         <textarea
           placeholder="Descriere"
           value={descriere}
           onChange={(e) => setDescriere(e.target.value)}
-          className="w-full p-2 border rounded"
-          required
         />
         <input
           type="number"
-          placeholder="Preț (RON)"
+          placeholder="Preț"
           value={pret}
           onChange={(e) => setPret(e.target.value)}
-          className="w-full p-2 border rounded"
-          required
         />
-        <button
-          type="submit"
-          className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition"
-        >
-          Adaugă
-        </button>
+        <input
+          type="text"
+          placeholder="Categorie"
+          value={categorie}
+          onChange={(e) => setCategorie(e.target.value)}
+        />
+        <input
+          type="file"
+          onChange={(e) => setImagine(e.target.files[0])}
+        />
+        <button type="submit">Adaugă</button>
       </form>
+      {mesaj && <p>{mesaj}</p>}
     </div>
   );
-}
+};
+
+export default AdaugaAnunt;

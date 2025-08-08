@@ -1,56 +1,201 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+ 
+/* Reset basic */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+/* Navbar */
+nav {
+  background-color: #333;
+  color: #fff;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
-}
 nav a {
-  display: inline-block;
-  margin: 10px;
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: white;
+  color: #fff;
   text-decoration: none;
-  border-radius: 5px;
   font-weight: bold;
 }
 
 nav a:hover {
+  text-decoration: underline;
+}
+
+nav button {
+  background-color: #ff4d4d;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+nav button:hover {
+  background-color: #e60000;
+}
+
+/* Container general */
+div {
+  padding: 20px;
+}
+
+/* Formulare */
+form {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 400px;
+  margin: 20px auto;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+form h2 {
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+form input,
+form textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+form button {
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  border: none;
+  color: #fff;
+  font-weight: bold;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+form button:hover {
   background-color: #0056b3;
+}
+
+/* Lista anunțuri */
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  background: #fff;
+  margin-bottom: 15px;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+li h3 {
+  margin: 0 0 10px 0;
+}
+/* === Stilizare bară căutare și filtre === */
+.filter-bar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.filter-bar input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.filter-bar button {
+  padding: 10px 20px;
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.filter-bar button:hover {
+  background-color: #218838;
+}
+
+/* === Carduri anunțuri === */
+.cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: flex-start;
+}
+
+.card {
+  background: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  width: 250px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.card h3 {
+  margin: 0 0 8px 0;
+  font-size: 18px;
+}
+
+.card p {
+  margin: 0 0 8px 0;
+  font-size: 14px;
+}
+
+.card strong {
+  color: #007bff;
+  font-size: 16px;
+}
+
+.card-buttons {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.card-buttons button {
+  flex: 1;
+  padding: 6px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.card-buttons button:first-child {
+  background-color: #ffc107;
+  color: #000;
+}
+
+.card-buttons button:first-child:hover {
+  background-color: #e0a800;
+}
+
+.card-buttons button:last-child {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+.card-buttons button:last-child:hover {
+  background-color: #c82333;
 }

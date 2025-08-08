@@ -1,46 +1,31 @@
-import React, { useEffect, useState } from 'react';
+import Login from "./pagini/Login.jsx";
+import AdaugaAnunt from "./pagini/AdaugaAnunt.jsx";
+import AnunturileMele from "./pagini/AnunturileMele.jsx";
+import EditeazaAnunt from "./pagini/EditeazaAnunt.jsx";
+import Home from "./pagini/Home.jsx";
+import DetaliiAnunt from "./pagini/DetaliiAnunt.jsx";
+
 
 function App() {
-  const [anunturi, setAnunturi] = useState([]);
-
-  useEffect(() => {
-    fetch('https://backend-tau.onrender.com/api/anunturi')  // pune aici URL-ul backend-ului tău online
-      .then(res => res.json())
-      .then(data => setAnunturi(data))
-      .catch(err => console.error('Eroare la încărcarea anunțurilor:', err));
-  }, []);
-
   return (
-    <div style={{ padding: '20px', fontFamily: 'Arial' }}>
-      <h1>Bine ai venit pe Ebay Anunțuri!</h1>
-      <nav>
-        <a href="/anunturi" style={navButtonStyle}>Vezi Anunțuri</a>
-        <a href="/adauga" style={navButtonStyle}>Adaugă Anunț</a>
-        <a href="/login" style={navButtonStyle}>Autentificare</a>
-      </nav>
+    <Router>
+      <div className="navbar">
+        <Link to="/">Acasă</Link>
+        <Link to="/login">Login</Link>
+        <Link to="/adauga-anunt">Adaugă Anunț</Link>
+        <Link to="/anunturile-mele">Anunțurile Mele</Link>
+      </div>
 
-      <h2>Anunțuri:</h2>
-      <ul>
-        {anunturi.length === 0 && <li>Nu există anunțuri.</li>}
-        {anunturi.map((anunt) => (
-          <li key={anunt._id}>
-            <strong>{anunt.titlu}</strong> - {anunt.descriere} - {anunt.pret} RON
-          </li>
-        ))}
-      </ul>
-    </div>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/adauga-anunt" element={<AdaugaAnunt />} />
+        <Route path="/anunturile-mele" element={<AnunturileMele />} />
+        <Route path="/editeaza-anunt/:id" element={<EditeazaAnunt />} />
+        <Route path="/anunt/:id" element={<DetaliiAnunt />} />
+      </Routes>
+    </Router>
   );
 }
-
-const navButtonStyle = {
-  display: 'inline-block',
-  margin: '10px',
-  padding: '10px 20px',
-  backgroundColor: '#007bff',
-  color: 'white',
-  textDecoration: 'none',
-  borderRadius: '5px',
-  fontWeight: 'bold',
-};
 
 export default App;
