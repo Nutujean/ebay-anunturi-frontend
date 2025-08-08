@@ -1,0 +1,32 @@
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+
+function Home() {
+  return (
+    <div style={{ textAlign: 'center', padding: '50px' }}>
+      <h1>ebay-anunturi</h1>
+      <p>Mesaj backend aici (test)</p>
+    </div>
+  );
+}
+
+function About() {
+  return <h2 style={{ textAlign: 'center' }}>Despre Noi</h2>;
+}
+
+function App() {
+  return (
+    <Router>
+      <nav style={{ padding: '10px', textAlign: 'center' }}>
+        <Link to="/" style={{ margin: '0 10px' }}>Acasă</Link>
+        <Link to="/about" style={{ margin: '0 10px' }}>Despre Noi</Link>
+      </nav>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+      </Routes>
+    </Router>
+  );
+}
+
+export default App;
