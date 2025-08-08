@@ -1,17 +1,12 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [parola, setParola] = useState("");
-  const [eroare, setEroare] = useState("");
-
-  const navigate = useNavigate();
+  const [mesaj, setMesaj] = useState("");
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setEroare("");
-
     try {
       const raspuns = await fetch("https://ebay-anunturi-backend-1.onrender.com/api/login", {
         method: "POST",
@@ -21,21 +16,22 @@ function Login() {
         body: JSON.stringify({ email, parola }),
       });
 
-      if (!raspuns.ok) {
-        const data = await raspuns.json();
-        throw new Error(data.mesaj || "Eroare la autentificare");
-      }
+      const data = await raspuns.json();
 
-      const date = await raspuns.json();
-      localStorage.setItem("token", date.token);
-      navigate("/anunturile-mele");
+      if (raspuns.ok) {
+        localStorage.setItem("token", data.token);
+        setMesaj("Autentificare reușită!");
+        window.location.href = "/anunturile-mele";
+      } else {
+        setMesaj(data.mesaj || "Eroare la autentificare.");
+      }
     } catch (err) {
-      setEroare(err.message);
+      setMesaj("Eroare de rețea.");
     }
   };
 
   return (
-    <div className="login-container">
+    <div>
       <h2>Autentificare</h2>
       <form onSubmit={handleLogin}>
         <input
@@ -43,18 +39,16 @@ function Login() {
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          required
         />
         <input
           type="password"
-          placeholder="Parola"
+          placeholder="Parolă"
           value={parola}
           onChange={(e) => setParola(e.target.value)}
-          required
         />
         <button type="submit">Autentificare</button>
-        {eroare && <p style={{ color: "red" }}>{eroare}</p>}
       </form>
+      <p>{mesaj}</p>
     </div>
   );
 }
